@@ -1,12 +1,44 @@
 package com.SkillBox.users.controller;
 
+import com.SkillBox.users.entity.User;
+import com.SkillBox.users.service.UsersService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/user")
+@RequiredArgsConstructor
 public class UsersController {
-    @GetMapping("/")
-    public String index() {
-        return "Hello world from users service!";
+
+    private final UsersService usersService;
+
+    @PostMapping
+    public User saveUser(@RequestBody User user) {
+        return usersService.saveUser(user);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUserById(@PathVariable Long id) {
+        usersService.deleteUserById(id);
+    }
+
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable Long id) {
+        return usersService.getUserById(id);
+    }
+
+    @PutMapping("/{id}")
+    public User updateUserById(@PathVariable Long id, @RequestBody User user) {
+        return usersService.updateUserById(id, user);
     }
 }

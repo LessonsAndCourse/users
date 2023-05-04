@@ -4,12 +4,9 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Data
@@ -22,11 +19,9 @@ public class Subscription {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id1", referencedColumnName = "user_id")
-    private User user1;
+    @Column(name = "user_id1")
+    private Long userId1;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id2", referencedColumnName = "user_id")
-    private User user2;
+    @Column(name = "user_id2")
+    private Long userId2;
 }
