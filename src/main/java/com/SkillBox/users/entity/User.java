@@ -1,6 +1,10 @@
 package com.SkillBox.users.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +20,9 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "users", schema = "users_scheme")
+@SQLDelete(sql = "UPDATE users_scheme.users SET deleted = true WHERE user_id=?")
+@FilterDef(name = "deletedUserFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedUserFilter", condition = "deleted = :isDeleted")
 public class User {
 
     @Id
@@ -59,4 +66,6 @@ public class User {
 
     @Column(name = "hard_skills")
     private String hardSkills;
+
+    private boolean deleted = Boolean.FALSE;
 }
