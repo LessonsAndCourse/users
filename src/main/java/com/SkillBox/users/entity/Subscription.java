@@ -1,5 +1,6 @@
 package com.SkillBox.users.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Data
+@AllArgsConstructor
 @Entity
 @Table(name = "subscriptions", schema = "users_scheme")
 public class Subscription {
@@ -24,4 +26,8 @@ public class Subscription {
 
     @Column(name = "user_id2")
     private Long userId2;
+
+    public Subscription() {
+
+    }
 }
