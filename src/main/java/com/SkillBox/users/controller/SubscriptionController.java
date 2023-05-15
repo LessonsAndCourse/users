@@ -36,5 +36,4 @@ public class SubscriptionController {
     public void deleteSubscription(@PathVariable Long userId1, @PathVariable Long userId2) {
         subscriptionService.deleteSubscription(userId1, userId2);
     }
-
 }
