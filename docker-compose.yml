@@ -1,0 +1,27 @@
+version: '3'
+services:
+  app:
+    container_name: users-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/users
+      - SPRING_DATASOURCE_USERNAME=pguser
+      - SPRING_DATASOURCE_PASSWORD=pgpass
+
+  db:
+    container_name: postgres-users
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=users
+      - POSTGRES_USER=pguser
+      - POSTGRES_PASSWORD=pgpass
+    volumes:
+      - ./src/integTest/resources/init-db-schema-integTest.sql:/docker-entrypoint-initdb.d/init-db-schema-integTest.sql
