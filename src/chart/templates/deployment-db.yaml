@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}-db
+  labels:
+    app: {{ .Values.appName }}
+spec:
+  replicas: {{ .Values.db.replicasCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}-db
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}-db
+    spec:
+      containers:
+        - name: {{ .Values.appName }}-db
+          image: {{ .Values.db.container.image }}:{{ .Values.db.container.version }}
+          ports:
+            - containerPort: {{ .Values.db.container.port }}
+          env:
+            - name: POSTGRES_DB
+              value: {{ .Values.db.env.POSTGRES_DB }}
+            - name: POSTGRES_USER
+              value: {{ .Values.db.env.POSTGRES_USER }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.db.env.POSTGRES_PASSWORD }}
+          volumeMounts:
+            - name: init-db-schema
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+      volumes:
+        - name: init-db-schema
+          configMap:
+            name: init-db-schema
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.appName }}-db-service
+spec:
+  selector:
+    app: {{ .Values.appName }}-db
+  ports:
+    - protocol: TCP
+      port: {{ .Values.db.service.port }}
+      targetPort: {{ .Values.db.service.targetPort }}
