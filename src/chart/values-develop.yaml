@@ -1,0 +1,30 @@
+appName: users
+ingressedService: users-service
+appHost: users.local
+app:
+  replicasCount: 1
+  container:
+    image: users
+    version: 0.0.1-SNAPSHOT
+    port: 8080
+  service:
+    port: 80
+    targetPort: 8080
+  env:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://users-db-service:5432/users
+    SPRING_DATASOURCE_USERNAME: pguser
+    SPRING_DATASOURCE_PASSWORD: pgpass
+    SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+db:
+  replicasCount: 1
+  container:
+    image: postgres
+    version: 11
+    port: 5432
+  env:
+    POSTGRES_DB: users
+    POSTGRES_USER: pguser
+    POSTGRES_PASSWORD: pgpass
+  service:
+    port: 5432
+    targetPort: 5432

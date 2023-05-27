@@ -1,4 +1,4 @@
-CREATE DATABASE users;
+SELECT 'CREATE DATABASE users' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'users');
 
 CREATE SCHEMA IF NOT EXISTS users_scheme;
 
